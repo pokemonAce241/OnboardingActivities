@@ -1,0 +1,58 @@
+create Table worker(
+	worker_id integer primary key,	
+	first_name varChar(100),	
+	last_name varChar(100),	
+	salary integer(100),	
+	joining_date datetime,
+	department varChar(100)
+);
+
+create table bonus(
+	worker_ref_id integer primary key,
+	bonus_date datetime,
+	bonus_amount, integer
+);
+
+create table title(
+worker_ref_id integer primary key,
+worker_title varChar(100),
+affected_from datetime
+);
+
+insert into worker(worker_id, first_name, last_name, salary, joining_date, department) 
+values(1,2,3,4,5,6,7,8),
+('Rick','Sam','John','Amy','Sean','Ryan','Patty','Monica'),
+('Smith','Williams','Brown','Jones','Garcia','Miller','Davis','Rodriguez'),
+(1000000,80000,3000000,5000000,5000000,2000000,75000,90000),
+(2021-02-20 09:00:00, 2021-06-11 09:00:00, 2021-02-20 09:00:00, 2021-02-20 09:00:00, 2021-06-11 09:00:00, 2021-06-11 09:00:00, 2021-01-20 09:00:00, 2021-04-11 09:00:00),
+('HR','Admin','HR','Admin','Admin','Account','Acount','Admin');
+
+insert into bonus(worker_ref_id,bonus_date,bonus_amount)
+values(1,2,3,1,2),
+(2021-02-20 00:00:00, 2021-06-11 00:00:00, 2021-02-20 00:00:00, 2021-02-20 00:00:00, 2021-06-11 00:00:00),
+(5000,3000,4000,4500,3500);
+
+insert into title(worker_id,worker_title,affected_from)
+values(1,2,8,5,4,7,6,3),
+('Manager','Executive','Executive','Manager','Asst. Manager', 'Executive', 'Lead', 'Lead'),
+(2021-02-20 00:00:00 ,2021-06-11 00:00:00, 2021-06-11 00:00:00, 2021-06-11 00:00:00, 2021-06-11 00:00:00, 2021-06-11 00:00:00, 2021-06-11 00:00:00, 2021-06-11 00:00:00);
+
+a) select first_name,last_name from worker
+   where salary >= 50000 and salary <=1000000;
+  
+b) select count(first_name)as "worker count",department from worker group by department order by first_Name desc;
+
+c) select worker.worker_id, worker.first_name, worker.last_name, worker.salary, worker.joining_date, worker.department, bonus.bonus_date, bonus.bonus_amount
+   from worker
+   inner join bonus
+   on worker.worker_id = bonus.worker_ref_id;
+  
+   select worker.worker_id, worker.first_name, worker.last_name, worker.salary, worker.joining_date, worker.department, title.worker_title, title.affected_from
+   from worker
+   inner join title
+   on worker.worker_id = title.worker_ref_id;
+  
+ d) select min(salary) from 
+ 	(select distinct salary from worker order by salary desc)
+	where rownum < 3;
+ 
